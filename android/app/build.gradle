@@ -1,0 +1,72 @@
+plugins{
+    id plugin: 'com.android.application'
+//    id plugin: 'com.google.gms.google-services'
+    id "dev.flutter.flutter-gradle-plugin"// Make sure this line is present
+
+}
+
+
+def localProperties = new Properties ()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+
+
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+// Commented out the Firebase plugin below
+// apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 34 // Or whichever version you are targeting
+    buildToolsVersion "30.0.3" // Update to the latest version
+
+    defaultConfig {
+        applicationId "com.example.gcommerc"
+        minSdkVersion 21 // Or your desired min SDK version
+        targetSdkVersion 30 // Or your desired target SDK version
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug // For now, using debug signing config
+            // Add your proguard rules if needed
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+flutter {
+    source 'C:/Users/user/StudioProjects/project' // Path to your Flutter project
+}
+
